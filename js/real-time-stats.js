@@ -1,11 +1,8 @@
 $(function() {
 
-
-// TODO(david): @spicyj's (or eater?) idea: display last GitHub issue somewhere
-// TODO(david): Use maxmind database
-var IP_INFO_API_URL = "http://api.ipinfodb.com/v3/ip-city/?callback=?";
-var IP_INFO_API_KEY =
-        "ea615758ce2f4b49b9ab4242b2159fcfc72860859bbce72749f75bfe1df98242";
+// TODO(david): Deploy to default and update this URL.
+var PROBLEM_LOG_ENDPOINT = "https://znd-real-time-exercises-dot-khan-academy." +
+        "appspot.com/api/internal/exercises/recent_problem_log";
 var MAX_MARKERS_ON_SCREEN = 1200;
 var POLL_INTERVAL_MS = 1000;
 
@@ -49,7 +46,7 @@ var getExerciseName = (function() {
 
     // Use the KA API to get pretty display names for exercises
     $(function() {
-        $.getJSON("http://www.khanacademy.org/api/v1/exercises",
+        $.getJSON("https://www.khanacademy.org/api/v1/exercises",
                 function(exercises) {
             _.each(exercises, function(ex) {
                 displayNameMap[ex.name] = ex.display_name;
@@ -92,31 +89,27 @@ var makeMarker = function(pinColor, options) {
 window.setInterval(function() {
 
     // TODO(david): Eventually add other types of activity, such as videos
-    $.getJSON("http://www.khanacademy.org/exercisestats/recentproblemlog",
-            function(problemlog) {
+    $.getJSON(PROBLEM_LOG_ENDPOINT, {casing: "camel"}, function(problemlog) {
 
         // Don't show again if last problem log was just shown
+        // TODO(david): Yuck, don't use randomFloat
         if (problemlog.randomFloat === prevFloat) {
             return;
         }
         prevFloat = problemlog.randomFloat;
 
-        var params = {
-            key: IP_INFO_API_KEY,
-            format: "json",
-            ip: problemlog.ipAddress
-        };
-
-        $.getJSON(IP_INFO_API_URL, params, function(data) {
+        // Get location info from IP address
+        $.getJSON("http://freegeoip.net/json/" +
+                encodeURIComponent(problemlog.ipAddress),
+                function(locationData) {
 
             var color = problemlog.correct ? "79A94E" : "FE7569";
 
             // Only draw map marker if we got back lat lng and it's not (0, 0)
-            if (+data.latitude || +data.longitude) {
-
+            if (+locationData.latitude || +locationData.longitude) {
                 markers.push(makeMarker(color, {
-                    position: new google.maps.LatLng(data.latitude,
-                        data.longitude),
+                    position: new google.maps.LatLng(locationData.latitude,
+                        locationData.longitude),
                     map: map,
                     animation: google.maps.Animation.DROP
                 }));
@@ -124,8 +117,10 @@ window.setInterval(function() {
                 if (markers.length > MAX_MARKERS_ON_SCREEN) {
                     var marker = markers.shift();
                     marker.setMap(null);  // Remove this marker from map
-                }
 
+                    // TODO(david): Have a nuclear explosion clear all markers
+                    //     from the map.
+                }
             }
 
             var rawAttempt = problemlog.attempts[0],
@@ -155,6 +150,8 @@ window.setInterval(function() {
             var $attempt = $(attemptTemplate(_.extend(problemlog, {
                 color: color,
                 answer: String(answer),
+                city: locationData.city,
+                country: locationData.country_name,
                 exerciseDisplayName: getExerciseName(problemlog.exercise)
             })));
 
