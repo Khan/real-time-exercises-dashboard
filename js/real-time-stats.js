@@ -1,8 +1,8 @@
 $(function() {
 
-// TODO(david): Deploy to default and update this URL.
-var PROBLEM_LOG_ENDPOINT = "https://znd-real-time-exercises-dot-khan-academy." +
-        "appspot.com/api/internal/exercises/recent_problem_log";
+var KA_HOST = "https://khan-academy.appspot.com";
+var PROBLEM_LOG_ENDPOINT = KA_HOST +
+        "/api/internal/exercises/recent_problem_log";
 var MAX_MARKERS_ON_SCREEN = 1200;
 var POLL_INTERVAL_MS = 1000;
 
@@ -46,8 +46,7 @@ var getExerciseName = (function() {
 
     // Use the KA API to get pretty display names for exercises
     $(function() {
-        $.getJSON("https://www.khanacademy.org/api/v1/exercises",
-                function(exercises) {
+        $.getJSON(KA_HOST + "/api/v1/exercises", function(exercises) {
             _.each(exercises, function(ex) {
                 displayNameMap[ex.name] = ex.display_name;
             });
