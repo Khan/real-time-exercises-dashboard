@@ -19,8 +19,15 @@
         <div id="stats-text"></div>
     </div>
 
+    <div id="dashboard-label">
+        <img src="http://www.khanacademy.org/images/ka-simplified-logo.png">
+        <div style="margin-top: 5px;">
+            Real-time Exercise Attempts
+        </div>
+    </div>
+
     <script type="text/x-handlebars-template" id="attempt-entry">
-      <div class="attempt-entry" style="border-left: 5px solid #{{color}}">
+      <div class="attempt-entry" style="border-left: 6px solid #{{color}}">
         <div class="info-text">
             {{#if correct}}
                 <i class="fa fa-check"></i>
@@ -53,16 +60,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBPu8dK_TyZhPG-QcqHvEVNgKq8ACH3yaA&sensor=true"></script>
-
-    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">
-        // TODO(david): Take parts of Kathjax
-        // TODO(david): Better font styling (smaller)
-        MathJax.Hub.Config({
-            showProcessingMessages: false,
-            "HTML-CSS": { availableFonts: ["TeX"] }
-        });
-    </script>
 
     <script src="js/real-time-stats.js"></script>
 
