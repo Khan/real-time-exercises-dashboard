@@ -1,18 +1,19 @@
 /* TODO(david): Use LESS */
 
 #map {
-    box-shadow: 6px 17px 14px rgba(0,0,0,0.2);
+    box-shadow: -6px -17px 14px rgba(0,0,0,0.2);
     height: 100%;
     position: absolute;
-    width: 80%;
+    width: 75%;
     z-index: 1;
+    right: 0;
 }
 
 #stats {
     position: absolute;
     height: 100%;
-    width: 20%;
-    right: 0;
+    width: 25%;
+    left: 0;
     top: 0;
     font-size: 20px;
     font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -25,6 +26,7 @@
 .attempt-entry {
     box-shadow: 0 1px rgba(0,0,0,.5),0 2px 0 rgba(255,255,255,0.1);
     padding: 15px 20px;
+    margin-bottom: 1px;
 }
 
 .info-text {
