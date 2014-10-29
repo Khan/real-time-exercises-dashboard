@@ -6,37 +6,43 @@
     <title>Real Time Khan Academy Exercises</title>
     <link rel="shortcut icon" href="http://www.khanacademy.org/favicon.ico?leaf">
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/real-time.css">
-    <link rel="stylesheet" type="text/css" href="css/webfont.css">
-
 </head>
 
 <body>
 
-    <div id="map" style="width: 100%; height: 100%; position: absolute"></div>
+    <div id="map"></div>
 
     <div id="stats">
         <div id="stats-text"></div>
     </div>
 
     <script type="text/x-handlebars-template" id="attempt-entry">
-    <p style="color: #{{color}}">
-        {{#if correct}}
-            <img src="img/check-icon.png" height="20" width="20">
-        {{else}}
-            <img src="img/cross-icon.png" height="20" width="20">
-        {{/if}}
-        Someone from
+    <div class="attempt-entry">
+        <div class="info-text" style="color: #{{color}}">
+            {{#if correct}}
+                Correct answer from
+            {{else}}
+                {{#if hintsUsed}}
+                    Hints used from
+                {{else}}
+                    Wrong answer from
+                {{/if}}
+            {{/if}}
+        </div>
+
         {{#if city}}{{city}}, {{/if}}
-        {{country}}
-        {{#if answer}}
-            answered <strong class="answer highlight">{{answer}}</strong> to
+        {{#if isUsa}}
+            {{region}}
         {{else}}
-            attempted
+            {{country}}
         {{/if}}
-        <strong>{{exerciseDisplayName}}</strong> in
-        {{timeTaken}} s.
-    </p>
+        <span class="info-text">on</span>
+        <strong>{{exerciseDisplayName}}</strong>
+        <span class="info-text">in</span>
+        {{timeTaken}}s.
+    </div>
     </script>
 
     <!-- Third-party libraries -->

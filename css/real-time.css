@@ -1,41 +1,43 @@
 /* TODO(david): Use LESS */
 
-#stats {
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 1000px;
-    height: 300px;
-    margin: 30px;
-    z-index: 10000;
-    font-size: 20px;
-    font-family: proxima_nova_rgregular, "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: 200;
-    background-color: white;
-    opacity: 0.8;
+#map {
+    box-shadow: 6px 17px 14px rgba(0,0,0,0.2);
+    height: 100%;
+    position: absolute;
+    width: 80%;
+    z-index: 1;
 }
 
-#stats-text p {
-    margin-bottom: 10px;
+#stats {
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    background-color: #2E2E2E;
+    line-height: 1.2;
+    color: #999;
+}
+
+.attempt-entry {
+    box-shadow: 0 1px rgba(0,0,0,.5),0 2px 0 rgba(255,255,255,0.1);
+    padding: 15px 20px;
+}
+
+.info-text {
+    text-transform: uppercase;
+    color: #777;
+    font-size: 15px;
 }
 
 #stats-text {
     position: absolute;
-    left: 30px;
-    right: 30px;
-    top: 30px;
-    bottom: 30px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
-}
-
-.answer {
-    display: inline-block;
-    max-width: 200px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.highlight {
-    background-color: rgba(220, 220, 0, 0.3);
 }

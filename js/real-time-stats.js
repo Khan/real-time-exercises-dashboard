@@ -102,7 +102,7 @@ window.setInterval(function() {
                 encodeURIComponent(problemlog.ipAddress),
                 function(locationData) {
 
-            var color = problemlog.correct ? "79A94E" : "FE7569";
+            var color = problemlog.correct ? "1D9F54" : "C44A30";
 
             // Only draw map marker if we got back lat lng and it's not (0, 0)
             if (+locationData.latitude || +locationData.longitude) {
@@ -122,34 +122,13 @@ window.setInterval(function() {
                 }
             }
 
-            var rawAttempt = problemlog.attempts[0],
-                answer = rawAttempt,
-                useMathjax = (rawAttempt && rawAttempt.substr(0, 6) ===
-                        '"<code' && window.MathJax);
-            if (problemlog.countAttempts > 0 && problemlog.countHints === 0) {
-                try {
-                    // Try to parse out text from attempt contents, which may be
-                    // a number as a string, HTML, an array, or who knows what
-                    // TODO(david): Parse MathJax
-                    answer = JSON.parse(answer);
-                    answer = $(answer).text() || answer;
-                    if (useMathjax) {
-                        answer = "\\(" + answer + "\\)";
-                    }
-                } catch (e) {}
-            } else {
-                if (problemlog.countHints > 0) {
-                    answer = "using hints";
-                } else {
-                    answer = "[see console]";
-                    console.log(problemlog);
-                }
-            }
-
             var $attempt = $(attemptTemplate(_.extend(problemlog, {
                 color: color,
-                answer: String(answer),
+                correct: problemlog.correct,
+                hintUsed: problemlog.hintsUsed,
                 city: locationData.city,
+                region: locationData.region_name,
+                isUsa: locationData.country_code === "US",
                 country: locationData.country_name,
                 exerciseDisplayName: getExerciseName(problemlog.exercise)
             })));
@@ -157,11 +136,6 @@ window.setInterval(function() {
             $("#stats-text")
                 .append($attempt)
                 .scrollTop($("#stats-text")[0].scrollHeight);
-
-            if (useMathjax) {
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub, $attempt[0]]);
-            }
-
         });
 
     });
